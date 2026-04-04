@@ -10,7 +10,7 @@ import logging
 from pathlib import Path
 from typing import Any
 
-from brainscan.relayer import build_layer_path, get_duplicated_layers, generate_all_configs
+from brainscan.relayer import build_layer_path, get_duplicated_layers, generate_all_configs, get_num_layers
 from brainscan.utils import (
     utc_now_iso,
     save_checkpoint,
@@ -83,7 +83,7 @@ def run_scan(
     else:
         raise ValueError(f"Unknown backend: {backend!r}")
 
-    num_layers: int = model_cfg.num_hidden_layers
+    num_layers: int = get_num_layers(model_cfg)
     logger.info(f"Model has {num_layers} layers. Generating configs ...")
 
     # -----------------------------------------------------------------
@@ -178,8 +178,8 @@ def run_scan(
         "model_name": model_path,
         "model_type": model_cfg.model_type,
         "num_layers": num_layers,
-        "hidden_size": model_cfg.hidden_size,
-        "num_attention_heads": model_cfg.num_attention_heads,
+        "hidden_size": getattr(model_cfg, "hidden_size", None),
+        "num_attention_heads": getattr(model_cfg, "num_attention_heads", None),
         "num_key_value_heads": getattr(model_cfg, "num_key_value_heads", None),
         "total_params_base": total_params_str,
         "backend": backend,

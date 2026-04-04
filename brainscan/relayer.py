@@ -29,7 +29,7 @@ changing the hardcoded path.  The RYS repo (dnhkng/RYS src/core/) handles
 MoE variants via a separate layer_duplicator_moe.py — that is not implemented
 here yet.
 
-TODO: implement auto-detection via _find_layers() for GPT-2 / multimodal models.
+Added 4/4/26: implement auto-detection via get_num_layers to probe for model type and determine the layer path.
 TODO: implement MoE support (see RYS src/core/layer_duplicator_moe.py).
 """
 
@@ -88,26 +88,104 @@ def generate_all_configs(num_layers: int) -> list[tuple[int, int]]:
 
 
 # ---------------------------------------------------------------------------
+# Config helpers
+# ---------------------------------------------------------------------------
+
+# Attribute names for the layer count across known HF config classes.
+# Ordered by prevalence so the first hit is almost always right.
+_LAYER_COUNT_ATTRS = (
+    "num_hidden_layers",   # Llama, Qwen2, Mistral, Gemma, Phi-3, most modern
+    "n_layer",             # GPT-2, BERT, RoBERTa, some Falcon variants
+    "num_layers",          # T5, mT5, some encoder-decoder models
+    "n_layers",            # older GPT-J / Bloom variants
+    "num_decoder_layers",  # encoder-decoder fallback
+)
+
+
+def get_num_layers(config: Any) -> int:
+    """Extract num_hidden_layers from a model config, trying common attr names.
+
+    Raises ValueError if none of the known attribute names are present.
+    Also handles multimodal configs where the value is nested under text_config.
+    """
+    for attr in _LAYER_COUNT_ATTRS:
+        val = getattr(config, attr, None)
+        if val is not None:
+            return int(val)
+
+    # Multimodal / vision-language models often nest the LLM config
+    text_cfg = getattr(config, "text_config", None)
+    if text_cfg is not None:
+        for attr in _LAYER_COUNT_ATTRS:
+            val = getattr(text_cfg, attr, None)
+            if val is not None:
+                return int(val)
+
+    raise ValueError(
+        f"Cannot determine layer count from {type(config).__name__}. "
+        f"Checked attributes: {_LAYER_COUNT_ATTRS}. "
+        "Please open a GitHub issue or pass --num-layers manually."
+    )
+
+
+# ---------------------------------------------------------------------------
 # Model relayering
 # ---------------------------------------------------------------------------
 
-def _get_layers(model: Any) -> nn.ModuleList:
-    """Return the model's transformer layer list.
+# Ordered candidate paths to the transformer layer list in the loaded model.
+# Each entry is a dotted attribute path.  The first one that resolves wins.
+_LAYER_PATHS = [
+    "model.layers",             # Qwen2, Llama 2/3, Mistral, Gemma, Phi-3
+    "language_model.model.layers",  # LLaVA-style multimodal
+    "model.model.layers",       # some double-wrapped configs
+    "transformer.h",            # GPT-2 / old Falcon
+    "transformer.blocks",       # MPT
+]
 
-    Hardcoded to model.model.layers — covers Qwen2, Llama, Mistral, Gemma,
-    Phi-3, and most modern HF decoder-only models.
 
-    If this raises AttributeError for your model, check:
-      - model.language_model.model.layers  (LLaVA / multimodal variants)
-      - model.transformer.h                (GPT-2 / old Falcon style)
-    Add a detection branch here rather than patching the call sites.
+def _resolve_attr_path(obj: Any, path: str) -> Any | None:
+    """Walk a dotted attribute path, returning None if any step is missing."""
+    cur = obj
+    for part in path.split("."):
+        cur = getattr(cur, part, None)
+        if cur is None:
+            return None
+    return cur
+
+
+def _detect_layer_path(model: Any) -> str:
+    """Return the dotted path to the model's transformer layer ModuleList.
+
+    Tries _LAYER_PATHS in order and returns the first one that resolves to a
+    non-empty nn.ModuleList.  Raises ValueError if none match.
     """
-    return model.model.layers
+    for path in _LAYER_PATHS:
+        result = _resolve_attr_path(model, path)
+        if isinstance(result, nn.ModuleList) and len(result) > 0:
+            return path
+
+    raise ValueError(
+        f"Cannot find transformer layers in {type(model).__name__}. "
+        f"Tried: {_LAYER_PATHS}. "
+        "Please open a GitHub issue with your model architecture."
+    )
 
 
-def _set_layers(model: Any, layers: nn.ModuleList) -> None:
-    """Assign a new ModuleList to the model's layer slot."""
-    model.model.layers = layers
+def _get_layers(model: Any, layer_path: str) -> nn.ModuleList:
+    """Return the model's transformer layer list at the given dotted path."""
+    result = _resolve_attr_path(model, layer_path)
+    if result is None:
+        raise AttributeError(f"Path {layer_path!r} not found on model.")
+    return result
+
+
+def _set_layers(model: Any, layer_path: str, layers: nn.ModuleList) -> None:
+    """Assign a new ModuleList to the model's layer slot at the given path."""
+    parts = layer_path.split(".")
+    parent = model
+    for part in parts[:-1]:
+        parent = getattr(parent, part)
+    setattr(parent, parts[-1], layers)
 
 
 def _set_layer_idx(layer: Any, idx: int) -> None:
@@ -144,37 +222,45 @@ def relayer_model(
     - Internal module dicts are independent (no cross-contamination)
     - layer_idx can be safely reassigned per position in the path
 
-    Returns (original_layers, original_config_state) so the caller can
-    restore the model after inference.  Always call restore_model() after this,
+    Returns (original_layers, state) where state is an opaque dict that must
+    be passed back to restore_model().  Always call restore_model() after this,
     even if inference raises — use a try/finally block.
 
     Patches the following model.config attributes to match the new path length:
-    - num_hidden_layers  (always)
-    - layer_types        (Qwen2 4.50+ sliding-window attention type per layer)
-                         Without this patch the Qwen2 forward pass does
-                         `self.config.layer_types[i]` where i can exceed the
-                         original list length, causing IndexError on every
-                         non-baseline config.  We remap by original layer index
-                         so duplicate layers get the correct attention type.
+    - The layer count attribute (num_hidden_layers / n_layer / num_layers / ...)
+    - layer_types (Qwen2 4.50+ sliding-window attention type per layer)
+                  Without this patch the Qwen2 forward pass does
+                  `self.config.layer_types[i]` where i can exceed the
+                  original list length, causing IndexError on every
+                  non-baseline config.  We remap by original layer index
+                  so duplicate layers get the correct attention type.
 
     If a future model adds other per-layer config lists, add them here.
     """
-    original_layers = _get_layers(model)
+    # Auto-detect where the layers live in this model
+    layer_path = _detect_layer_path(model)
+    original_layers = _get_layers(model, layer_path)
 
-    # Snapshot every config attribute we will mutate so restore_model can put
-    # them back exactly.  Use a plain dict — no magic.
-    original_config_state: dict[str, Any] = {
-        "num_hidden_layers": model.config.num_hidden_layers,
+    # Find which config attribute holds the layer count for this model family
+    layer_count_attr = None
+    for attr in _LAYER_COUNT_ATTRS:
+        if getattr(model.config, attr, None) is not None:
+            layer_count_attr = attr
+            break
+
+    # State dict: underscore-prefixed keys are internal bookkeeping,
+    # all other keys are config attributes to restore verbatim.
+    state: dict[str, Any] = {
+        "_layer_path": layer_path,
+        "_layer_count_attr": layer_count_attr,
     }
+    if layer_count_attr is not None:
+        state[layer_count_attr] = getattr(model.config, layer_count_attr)
 
-    # layer_types: added in transformers 4.50 for Qwen2 sliding-window support.
-    # It is a list of strings (e.g. ["full_attention", "sliding_window", ...])
-    # with one entry per original layer.  We MUST remap it along with the path
-    # or the Qwen2 forward pass raises IndexError for any config where
-    # len(path) > num_layers.
+    # layer_types: Qwen2 4.50+ per-layer attention type list — must be remapped
     layer_types = getattr(model.config, "layer_types", None)
     if layer_types is not None:
-        original_config_state["layer_types"] = list(layer_types)
+        state["layer_types"] = list(layer_types)
 
     path = build_layer_path(i, j, num_layers)
 
@@ -184,31 +270,38 @@ def relayer_model(
         _set_layer_idx(layer_copy, path_pos)
         new_layer_list.append(layer_copy)
 
-    _set_layers(model, nn.ModuleList(new_layer_list))
-    model.config.num_hidden_layers = len(path)
+    _set_layers(model, layer_path, nn.ModuleList(new_layer_list))
+
+    if layer_count_attr is not None:
+        setattr(model.config, layer_count_attr, len(path))
 
     if layer_types is not None:
         model.config.layer_types = [layer_types[idx] for idx in path]
 
-    return original_layers, original_config_state
+    return original_layers, state
 
 
 def restore_model(
     model: Any,
     original_layers: nn.ModuleList,
-    original_config_state: dict[str, Any],
+    state: dict[str, Any],
 ) -> None:
     """Restore the model to its original layer configuration.
 
     Restores all config attributes saved by relayer_model, then reinstates
     the original ModuleList and resets layer_idx on each original layer object.
+
+    state must be the dict returned by relayer_model — do not modify it.
     """
-    # Restore config attrs first (num_hidden_layers, layer_types, ...)
-    for attr, val in original_config_state.items():
-        setattr(model.config, attr, val)
+    layer_path = state["_layer_path"]
+
+    # Restore config attrs (skip internal underscore keys)
+    for attr, val in state.items():
+        if not attr.startswith("_"):
+            setattr(model.config, attr, val)
 
     # Restore original layer_idx values on the original layer objects
     for idx, layer in enumerate(original_layers):
         _set_layer_idx(layer, idx)
 
-    _set_layers(model, original_layers)
+    _set_layers(model, layer_path, original_layers)
