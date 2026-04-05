@@ -36,6 +36,9 @@ htmlcov/
 # Planning / internal notes
 .planning/
 
+# Local IDE / tool config
+.claude/
+
 # macOS
 .DS_Store
 .AppleDouble
