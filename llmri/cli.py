@@ -1,8 +1,8 @@
-"""LL-MRI CLI entry point.
+"""LLMRI CLI entry point.
 
 Commands:
   llmri scan           — run the (i,j) sweep on a model
-  llmri convert        — convert RYS pickle files to LL-MRI JSON
+  llmri convert        — convert RYS pickle files to LLMRI JSON
   llmri create-dataset — download and build the bundled probe datasets
 """
 
@@ -25,7 +25,7 @@ _DEFAULT_EQ = _DATASETS_DIR / "eq_16.json"
 
 @click.group()
 def cli() -> None:
-    """LL-MRI — RYS layer-duplication sweep tool."""
+    """LLMRI — RYS layer-duplication sweep tool."""
 
 
 # ---------------------------------------------------------------------------
@@ -154,7 +154,7 @@ def scan(
 ) -> None:
     """Run the RYS (i,j) layer-duplication sweep on MODEL.
 
-    Produces a single JSON file at --output that the LL-MRI Viewer can
+    Produces a single JSON file at --output that the LLMRI Viewer can
     consume to render interactive heatmaps.
 
     Examples:
@@ -260,7 +260,7 @@ def scan(
     "--output", "-o",
     default="scan_results.json",
     show_default=True,
-    help="Path to write the converted LL-MRI JSON.",
+    help="Path to write the converted LLMRI JSON.",
 )
 def convert(
     pkl_pubmedqa: str | None,
@@ -269,7 +269,7 @@ def convert(
     num_layers: int,
     output: str,
 ) -> None:
-    """Convert RYS repo pickle files to LL-MRI JSON format.
+    """Convert RYS repo pickle files to LLMRI JSON format.
 
     The RYS repo outputs separate .pkl files for each probe type.  Use this
     command to combine them into a single scan_results.json for the viewer.

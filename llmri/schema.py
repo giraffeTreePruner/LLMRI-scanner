@@ -1,4 +1,4 @@
-"""Pydantic models for the LL-MRI output JSON schema."""
+"""Pydantic models for the LLMRI output JSON schema."""
 
 from __future__ import annotations
 

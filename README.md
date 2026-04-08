@@ -1,12 +1,61 @@
-# LL-MRI
+# LLMRI
 
-LL-MRI (Language Model — Model Relayering Imaging) runs exhaustive layer-duplication sweeps on transformer models to measure how duplicating different layer ranges affects model performance. For every valid `(i, j)` pair in an N-layer model, it constructs a temporary layer path where layers `i` through `j−1` execute twice, scores the resulting model on two probe sets, and records the results in a structured JSON file.
+LLMRI (Language Model — Model Relayering Imaging) runs exhaustive layer-duplication sweeps on transformer models to measure how duplicating different layer ranges affects model performance. For every valid `(i, j)` pair in an N-layer model, it constructs a temporary layer path where layers `i` through `j−1` execute twice, scores the resulting model on two probe sets, and records the results in a structured JSON file.
+
+---
+
+## Background
+
+### RYS — Repeat Yourself Smarter
+
+LLMRI is built on top of [RYS](https://github.com/dnhkng/RYS), a technique discovered by David Noel Ng (dnhkng) and described in two articles: [LLM Neuroanatomy](https://dnhkng.github.io/posts/rys/) and [LLM Neuroanatomy II](https://dnhkng.github.io/posts/rys-ii/).
+
+The core observation is that you can improve a transformer's performance by duplicating a contiguous block of its middle layers and running inference through that block twice — no retraining, no weight copies, no merging. The repeated layers execute via pointer, so the VRAM cost is zero. Compute overhead is proportional to how many layers you add (e.g. repeating 7 layers in an 80-layer model costs ~9% more FLOPs per forward pass).
+
+A configuration is expressed as `(i, j)`: layers `0` through `j−1` execute first, then layers `i` through `N−1` execute, so layers `i` through `j−1` run twice. The baseline `(0, 0)` is the unmodified model.
+
+Applied to Qwen2-72B with configuration `(45, 52)`, RYS reached #1 on the HuggingFace Open LLM Leaderboard with a +2.61% average gain — including +8.16% on MATH Level 5 and +17.72% on MuSR. The model acquired no new knowledge and used no additional weights.
+
+### Why it works: transformer neuroanatomy
+
+Plotting the performance delta of every `(i, j)` pair as a 2D heatmap reveals a consistent three-phase anatomy across model families:
+
+- **Encoding (early layers):** Rapidly normalize diverse surface forms — different languages, tokenizations, encodings — into a shared abstract representation. Disrupting these layers hurts performance.
+- **Reasoning (middle layers):** Operate in a format-agnostic conceptual space. These are the layers that benefit from duplication because they function as complete *circuits* — multi-step reasoning pipelines that must execute in full to produce a coherent intermediate state.
+- **Decoding (late layers):** Collapse the abstract representation back into output tokens. Duplication here provides little benefit.
+
+A key mechanistic finding: duplicating a *single* layer produces little or no gain. The middle layers don't perform independent iterative refinement — they work as circuits. Repeating the full block gives the model a second complete reasoning pass on its own output.
+
+This three-phase structure is confirmed cross-lingually: middle-layer representations are more similar for same-topic content in different languages than for different-topic content in the same language — confirming the reasoning phase is format-agnostic.
+
+### RYS II: sweeping 2 million candidates
+
+The original RYS paper found its configuration empirically. RYS II asked: what's the *optimal* configuration, and how does the search scale? Using Qwen3.5-27B as the target, it ran a multi-stage search:
+
+1. Full `(i, j)` grid scan
+2. Per-layer repeat-count sweep (2× through 8× for individual layers)
+3. Beam search over multi-block compositions
+4. An XGBoost surrogate model trained on 4,643 measured configurations, used to rank ~2 million candidates (Spearman ρ = 0.933 on held-out configs)
+5. Final validation of the top candidates on expanded 120-question math and 139-scenario EQ benchmarks
+
+The exhaustive search confirmed what the first article suggested: **simple contiguous mid-stack blocks dominate the efficiency frontier**. After evaluating 2 million candidates, the Pareto-optimal configurations were all straightforward `(i, j)` pairs clustered around layers 26–34. The single-layer-pair `(33, 34)` — duplicating just one layer — captured most of the EQ benefit (+0.0945) at only +1.56% overhead. The author called it "a free lunch, or at least a very cheap snack."
+
+### Why LLMRI?
+
+The heatmap output that both RYS articles center their analysis on is, literally, an image of the model's internal layer structure — a scan that reveals the three-phase anatomy the technique depends on. The articles frame this throughout in neuroanatomy language: circuits, phases, encoding and decoding regions, disruption deficits.
+
+**LLMRI** (Large Language — Model Relayering Imaging) names both halves of what this tool does:
+
+- **Relayering** is the exact technical operation: constructing a modified layer execution path without touching weights
+- **Imaging** captures both the heatmap visualization output and the MRI metaphor — this tool produces scans of a model's internal structure the same way an MRI produces scans of biological tissue
+
+The name deliberately echoes medical imaging because the methodology is the same: apply a probe, measure response, build a 2D map, interpret the anatomy.
 
 ---
 
 ## What it does
 
-For a model with N layers, LL-MRI evaluates N×(N+1)/2 + 1 configurations (including a no-duplication baseline). Each configuration is scored on:
+For a model with N layers, LLMRI evaluates N×(N+1)/2 + 1 configurations (including a no-duplication baseline). Each configuration is scored on:
 
 - **PubMedQA** — biomedical yes/no/maybe question answering (accuracy)
 - **EQ-Bench** — emotional intelligence dialogues (MAE-based score with confidence weighting)
@@ -32,8 +81,8 @@ Outputs include per-configuration scores, deltas from baseline, top-10 rankings 
 Requires Python 3.10+ and [uv](https://github.com/astral-sh/uv).
 
 ```bash
-git clone https://github.com/giraffeTreePruner/LL-MRI-scanner.git
-cd LL-MRI-scanner
+git clone https://github.com/giraffeTreePruner/LLMRI-scanner.git
+cd LLMRI-scanner
 uv sync
 ```
 
@@ -88,7 +137,7 @@ uv run llmri convert --pkl-pubmedqa rys_pubmedqa.pkl --model-name Qwen/Qwen2.5-3
 ## Directory structure
 
 ```
-LL-MRI-scanner/
+LLMRI-scanner/
 ├── llmri/                      # Main package
 │   ├── cli.py                  # Click CLI entry points
 │   ├── scanner.py              # Sweep orchestrator

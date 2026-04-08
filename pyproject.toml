@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "llmri"
 version = "1.0.0"
-description = "LL-MRI: CLI scanner for RYS (i,j) layer-duplication sweeps on HuggingFace models"
+description = "LLMRI: CLI scanner for RYS (i,j) layer-duplication sweeps on HuggingFace models"
 requires-python = ">=3.10"
 dependencies = [
     "click>=8.1",

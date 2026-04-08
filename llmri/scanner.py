@@ -212,7 +212,7 @@ def run_scan(
     all_results: list[dict[str, Any]] = list(existing_results)
     done_count = len(completed)
 
-    pbar = make_progress_bar(total=total_configs, desc="LL-MRI")
+    pbar = make_progress_bar(total=total_configs, desc="LLMRI")
     pbar.update(done_count)
 
     for cfg_idx, (i, j) in enumerate(pending_configs):
