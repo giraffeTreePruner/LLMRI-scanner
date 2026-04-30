@@ -1,0 +1,98 @@
+[
+  {
+    "id": "0",
+    "prompt": "I wore the pants and the shirt together, but got more compliments on the _ because the shirt was uglier.\n\n1) shirt\n2) pants\n\nAnswer with just 1 or 2:",
+    "answer": "2",
+    "type": "winogrande"
+  },
+  {
+    "id": "1",
+    "prompt": "Laura used too much super glue on Erins hands, so _ needed to get to the doctor to separate their hands.\n\n1) Laura\n2) Erin\n\nAnswer with just 1 or 2:",
+    "answer": "2",
+    "type": "winogrande"
+  },
+  {
+    "id": "2",
+    "prompt": "The ambulance went to the hospital without Nelson inside but with Ryan because _ drove there in a car.\n\n1) Nelson\n2) Ryan\n\nAnswer with just 1 or 2:",
+    "answer": "1",
+    "type": "winogrande"
+  },
+  {
+    "id": "3",
+    "prompt": "Tanya spent more on the children's birthday party than Amy. _ thought a magician was a good use of funds.\n\n1) Tanya\n2) Amy\n\nAnswer with just 1 or 2:",
+    "answer": "1",
+    "type": "winogrande"
+  },
+  {
+    "id": "4",
+    "prompt": "The doctor suggested alternating between ice and a heating pad when I strained a muscle, but he warned me to not let the _ get too warm.\n\n1) ice\n2) pad\n\nAnswer with just 1 or 2:",
+    "answer": "2",
+    "type": "winogrande"
+  },
+  {
+    "id": "5",
+    "prompt": "Brian informed Aaron that their coach had scheduled an extra event on Saturday morning since _ was present at yesterday's practice.\n\n1) Brian\n2) Aaron\n\nAnswer with just 1 or 2:",
+    "answer": "1",
+    "type": "winogrande"
+  },
+  {
+    "id": "6",
+    "prompt": "John sold the three chairs and used the money to buy twelve shoes. The _ were more expensive.\n\n1) chairs\n2) shoes\n\nAnswer with just 1 or 2:",
+    "answer": "1",
+    "type": "winogrande"
+  },
+  {
+    "id": "7",
+    "prompt": "Playing basketball came easier for Cynthia than Jennifer but _ had less control of their body movements.\n\n1) Cynthia\n2) Jennifer\n\nAnswer with just 1 or 2:",
+    "answer": "1",
+    "type": "winogrande"
+  },
+  {
+    "id": "8",
+    "prompt": "At work, Mary uses a broiler a lot, but Rebecca uses a chainsaw. That's because _ is a tree cutter.\n\n1) Mary\n2) Rebecca\n\nAnswer with just 1 or 2:",
+    "answer": "2",
+    "type": "winogrande"
+  },
+  {
+    "id": "9",
+    "prompt": "You can grow cilantro in a garden or buy it at the store, but the _ variety will taste better because it will be fresh.\n\n1) garden\n2) store\n\nAnswer with just 1 or 2:",
+    "answer": "1",
+    "type": "winogrande"
+  },
+  {
+    "id": "10",
+    "prompt": "Caroline works in the catering and food wholesale industries, but enjoys food distribution more, so she prefers her work in the _ industry.\n\n1) catering\n2) food wholesale\n\nAnswer with just 1 or 2:",
+    "answer": "2",
+    "type": "winogrande"
+  },
+  {
+    "id": "11",
+    "prompt": "His hands were a lot rougher than his thighs, because he used the _ for nothing.\n\n1) hands\n2) thighs\n\nAnswer with just 1 or 2:",
+    "answer": "2",
+    "type": "winogrande"
+  },
+  {
+    "id": "12",
+    "prompt": "John cannot touch the cup as it was just brought out of the refrigerator. He wanted some air to blow around it. The _ is very warm.\n\n1) cup\n2) air\n\nAnswer with just 1 or 2:",
+    "answer": "2",
+    "type": "winogrande"
+  },
+  {
+    "id": "13",
+    "prompt": "Nick struggled with unresolved trauma that Ian couldn't understand, since _ had never experienced childhood abuse.\n\n1) Nick\n2) Ian\n\nAnswer with just 1 or 2:",
+    "answer": "1",
+    "type": "winogrande"
+  },
+  {
+    "id": "14",
+    "prompt": "At the estate sale, John saw the hammer was more affordable than the screwdriver, because the _ was brand new.\n\n1) hammer\n2) screwdriver\n\nAnswer with just 1 or 2:",
+    "answer": "2",
+    "type": "winogrande"
+  },
+  {
+    "id": "15",
+    "prompt": "A background check was performed on Natalie by Lindsey due to _ being a nanny.\n\n1) Natalie\n2) Lindsey\n\nAnswer with just 1 or 2:",
+    "answer": "1",
+    "type": "winogrande"
+  }
+]

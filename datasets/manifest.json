@@ -19,6 +19,34 @@
       "source": "qiaojin/PubMedQA (pqa_labeled split, seed=42)",
       "bundled": false,
       "create_with": "llmri create-dataset --pubmedqa"
+    },
+    "boolq_16.json": {
+      "description": "16 BoolQ yes/no questions from Google/BoolQ validation split (8 true, 8 false)",
+      "num_items": 16,
+      "source": "google/boolq (validation split, seed=42)",
+      "bundled": true,
+      "create_with": "llmri create-dataset --boolq"
+    },
+    "arc_16.json": {
+      "description": "16 ARC-Challenge science MC questions (4 per answer key A/B/C/D)",
+      "num_items": 16,
+      "source": "allenai/ai2_arc ARC-Challenge (test split, seed=42)",
+      "bundled": true,
+      "create_with": "llmri create-dataset --arc"
+    },
+    "winogrande_16.json": {
+      "description": "16 WinoGrande commonsense coreference questions (8 per option 1/2)",
+      "num_items": 16,
+      "source": "allenai/winogrande winogrande_debiased (validation split, seed=42)",
+      "bundled": true,
+      "create_with": "llmri create-dataset --winogrande"
+    },
+    "truthfulqa_16.json": {
+      "description": "16 TruthfulQA MC questions randomly sampled (A=correct, B=best incorrect)",
+      "num_items": 16,
+      "source": "truthfulqa/truthful_qa multiple_choice (validation split, seed=42)",
+      "bundled": true,
+      "create_with": "llmri create-dataset --truthfulqa"
     }
   }
 }

@@ -246,44 +246,39 @@ def evaluate_config(
     i: int,
     j: int,
     num_layers: int,
-    pubmedqa_probes: list[dict],
-    eq_probes: list[dict],
+    probe_data: dict[str, list[dict]],
+    probe_scorers: dict[str, Any],
     max_new_tokens: int,
     device: str,
     active_probes: set[str],
 ) -> dict[str, float]:
     """Relayer the model for (i,j), run probes, restore, return scores.
 
-    active_probes controls which probe sets to run: {"pubmedqa", "eq"}.
-    Returns a dict with keys "pubmedqa_score" and/or "eq_score".
-    """
-    from llmri.scoring.pubmedqa_scorer import score_pubmedqa_batch
-    from llmri.scoring.eq_scorer import score_eq_batch
+    Args:
+        probe_data: Maps probe name → list of probe dicts.
+        probe_scorers: Maps probe name → batch scorer callable.
+        active_probes: Which probe names to actually run.
 
-    # Relayer — returns (layers, config_state_dict) now
+    Returns:
+        Dict mapping probe name → score (e.g. {"pubmedqa": 0.5, "boolq": 0.75}).
+    """
     original_layers, original_config_state = relayer_model(model, i, j, num_layers)
 
     try:
         scores: dict[str, float] = {}
 
-        if "pubmedqa" in active_probes and pubmedqa_probes:
-            prompts = [p["prompt"] for p in pubmedqa_probes]
-            responses = generate_responses(
-                model, tokenizer, prompts, max_new_tokens, device
-            )
-            scores["pubmedqa_score"] = score_pubmedqa_batch(responses, pubmedqa_probes)
-
-        if "eq" in active_probes and eq_probes:
+        for probe_name in active_probes:
+            probes = probe_data.get(probe_name, [])
+            if not probes:
+                continue
+            score_fn = probe_scorers[probe_name]
             # EQ-Bench needs more tokens for its structured output
-            eq_max_tokens = max(max_new_tokens, 128)
-            prompts = [p["prompt"] for p in eq_probes]
-            responses = generate_responses(
-                model, tokenizer, prompts, eq_max_tokens, device
-            )
-            scores["eq_score"] = score_eq_batch(responses, eq_probes)
+            tokens = max(max_new_tokens, 128) if probe_name == "eq" else max_new_tokens
+            prompts = [p["prompt"] for p in probes]
+            responses = generate_responses(model, tokenizer, prompts, tokens, device)
+            scores[probe_name] = score_fn(responses, probes)
 
     finally:
-        # Always restore, even if generation throws
         restore_model(model, original_layers, original_config_state)
 
     return scores

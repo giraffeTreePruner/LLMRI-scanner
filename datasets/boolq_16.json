@@ -1,0 +1,98 @@
+[
+  {
+    "id": "0",
+    "prompt": "Passage: The Houston Texans joined the league at the 2002 NFL season, playing at the newly founded Reliant Stadium. With their opening game victory over the Dallas Cowboys that season, the team became the first expansion team to win its opening game since the Minnesota Vikings beat the Chicago Bears in 1961. While the team struggled in early seasons, results began to improve once native Houstonian Gary Kubiak became the head coach in 2006. The Texans finished with a .500 season (8-8) in both 2007 and 2008, and nearly qualified for the 2009--10 NFL playoffs with a 9--7 result in 2009. In 2010, the team started the season on a 4--2 record going into a Week 7 bye week, but promptly collapsed 2--8 in the second part of the season, finishing 6--10. In the 2011 NFL Draft, the Texans acquired Wisconsin star defensive end J.J. Watt eleventh overall. The following season, former Cowboys head coach Wade Phillips was hired as the defensive coordinator of the Texans, and the improved defense led to the Texans finishing 10--6, winning their first AFC South title. The Texans then beat wild card Cincinnati Bengals 31--10 in the first round of the 2011--12 NFL playoffs, before a 20--13 defeat by the Ravens in the semifinals.\n\nQuestion: have the houston texans ever won a playoff game\n\nAnswer with just yes or no:",
+    "answer": "yes",
+    "type": "boolq"
+  },
+  {
+    "id": "1",
+    "prompt": "Passage: The film was announced in October 2014 as Avengers: Infinity War -- Part 1. The Russo brothers came on board to direct in April 2015 and by May, Markus and McFeely had signed on to write the script for the film, which drew inspiration from Jim Starlin's 1991 The Infinity Gauntlet comic and Jonathan Hickman's 2013 Infinity comic. In 2016, Marvel shortened the title to Avengers: Infinity War. Filming began in January 2017 at Pinewood Atlanta Studios in Fayette County, Georgia, with a large cast consisting mostly of actors reprising their roles from previous MCU films. The production lasted until July 2017, shooting back-to-back with an untitled direct sequel. Additional filming took place in Scotland, England, the Downtown Atlanta area, and New York City. With an estimated budget in the range of $316--400 million, it is one of the most expensive films ever made.\n\nQuestion: is there a part two to advengers infinity war\n\nAnswer with just yes or no:",
+    "answer": "yes",
+    "type": "boolq"
+  },
+  {
+    "id": "2",
+    "prompt": "Passage: Canada Dry is a brand of soft drinks owned since 2008 by the American Keurig Dr Pepper. For over a century, Canada Dry has been known for its ginger ale, though the company also manufactures a number of other soft drinks and mixers. Although Canada Dry originated in Canada, it is now produced in many countries around the globe, including the United States, Mexico, Colombia, Peru, Japan, & a number of countries of the Middle East & Europe.\n\nQuestion: is canada dry ginger ale made in canada\n\nAnswer with just yes or no:",
+    "answer": "no",
+    "type": "boolq"
+  },
+  {
+    "id": "3",
+    "prompt": "Passage: A possession and acquisition licence is a licence that allows individuals in Canada to possess and acquire firearms as well as ammunition. Licences are typically valid for five years and must be renewed prior to expiry to maintain all classes. If an individual possessing a PAL is convicted of certain offences, a PAL can be revoked. If an individual does not renew their PAL prior to its expiration date or if they have their PAL revoked, they must legally dispose of any firearms in their possession. A licence for prohibited firearms can be issued to qualifying businesses, and very rarely to individuals (firearms they own, as the gun laws changed over time.) Previous convictions for serious violent, drug or weapons offences almost invariably result in the denial of the application.\n\nQuestion: do you need a pal to possess ammunition\n\nAnswer with just yes or no:",
+    "answer": "yes",
+    "type": "boolq"
+  },
+  {
+    "id": "4",
+    "prompt": "Passage: Taylor Hayes is a fictional character from the American CBS soap opera The Bold and the Beautiful, portrayed by Hunter Tylo. The character was created by William J. Bell and debuted during the episode dated June 6, 1990. Tylo appeared as a regular continuously until 1994 when she took a hiatus for a few months before being written back into the series. In 1996, she left the serial after being cast on Melrose Place, where she was soon fired on the grounds of being pregnant, and returned shortly after. In 2002, Tylo and the show's executive producer Bradley Bell had mutually agreed that the character was ``played out'', and Taylor was subsequently killed off, last appearing on October 30, 2002. Tylo returned in 2004, reprising Taylor as a ghost. She returned on a permanent basis in April 2005, with the character revealed to be alive. Tylo exited The Bold and the Beautiful again in July 2013, but returned for multiple guest appearances in 2014. She returned again in April 2018.\n\nQuestion: is taylor back on the bold and the beautiful\n\nAnswer with just yes or no:",
+    "answer": "yes",
+    "type": "boolq"
+  },
+  {
+    "id": "5",
+    "prompt": "Passage: In finance, the time value (TV) (extrinsic or instrumental value) of an option is the premium a rational investor would pay over its current exercise value (intrinsic value), based on the probability it will increase in value before expiry. For an American option this value is always greater than zero in a fair market, thus an option is always worth more than its current exercise value.. As an option can be thought of as 'price insurance' (e.g., an airline insuring against unexpected soaring fuel costs caused by a hurricane), TV can be thought of as the risk premium the option seller charges the buyer--the higher the expected risk (volatility \u22c5 (\\displaystyle \\cdot ) time), the higher the premium. Conversely, TV can be thought of as the price an investor is willing to pay for potential upside.\n\nQuestion: can the time value of an option be negative\n\nAnswer with just yes or no:",
+    "answer": "no",
+    "type": "boolq"
+  },
+  {
+    "id": "6",
+    "prompt": "Passage: Between 1920 until 1940, when baseball was Americas most popular sport, every team had a tobacco sponsor. It is common perception that many baseball players use tobacco. According to the MLB however this practice is changing and declining. One source states that a reason chewing tobacco usage increased among baseball players was the misconception that it improved concentration, overall performance and was less harmful than smoking a cigarette. Contrary to this, chewing tobacco does not have an established connection to the performance of baseball players. As more information about the dangers of chewing tobacco has come to light it has become stigmatized within baseball itself with players, staff and managers often having to ``sneak'' off to partake. These individuals understand that children will easily copy their actions and try to hide them now, as they are negative role models for youth. Most players have made attempts to quit, but the majority struggle in breaking their addiction. Lenny Dykstra, the former Philadelphia Phillies center-fielder, started dipping at a young age, unaware of how difficult quitting would be. He tells young children, ``They call me ``Nails'' because they say I'm as tough as nails. But I'm not tough enough to beat the spit-tobacco habit. Copy my hustle, copy my determination. But don't copy my spit-tobacco habit.'' In addition Major League Baseball has taken actions to lower tobacco usage amongst its players. This includes a complete ban on tobacco with fines for players and their managers if it is discovered. In the major leagues tobacco companies are no longer allowed to leave free products in stadium clubhouses for the players, with a ban effective December 5, 2016, in the new Collective Bargaining Agreement that prohibits players entering MLB for the first time from using tobacco. (Players who had experience in MLB prior to the day are grandfathered.) Baseball stadiums have stricter tobacco policies for patrons as well though the level of strictness varies per stadium.\n\nQuestion: is chewing tobacco banned in major league baseball\n\nAnswer with just yes or no:",
+    "answer": "yes",
+    "type": "boolq"
+  },
+  {
+    "id": "7",
+    "prompt": "Passage: Visio began as a standalone product produced by Shapeware Corporation; version 1.0 shipped in 1992. A pre-release, Version 0.92, was distributed free on a floppy disk along with a Microsoft Windows systems readiness evaluation utility. In 1995, Shapeware Corporation changed their name to Visio Corporation to take advantage of market recognition and related product equity. Microsoft acquired Visio in 2000, re-branding it as a Microsoft Office application. Like Microsoft Project, however, it has never been officially included in any of the bundled Office suites (although it was on the disk for Office 2003 and could be installed if users knew it was there ). Microsoft included a Visio for Enterprise Architects edition with some editions of Visual Studio .NET 2003 and Visual Studio 2005.\n\nQuestion: is microsoft visio and visual studio the same\n\nAnswer with just yes or no:",
+    "answer": "no",
+    "type": "boolq"
+  },
+  {
+    "id": "8",
+    "prompt": "Passage: All widely cultivated bananas today descend from the two wild bananas Musa acuminata and Musa balbisiana. While the original wild bananas contained large seeds, diploid or polyploid cultivars (some being hybrids) with tiny seeds are preferred for human raw fruit consumption. These are propagated asexually from offshoots. The plant is allowed to produce two shoots at a time; a larger one for immediate fruiting and a smaller ``sucker'' or ``follower'' to produce fruit in 6--8 months.\n\nQuestion: can you grow banana trees from a banana\n\nAnswer with just yes or no:",
+    "answer": "no",
+    "type": "boolq"
+  },
+  {
+    "id": "9",
+    "prompt": "Passage: Throughout the World Cup history, Brazil became the team's historical rival. The two countries have met each other five times but the Czechs (always as Czechoslovakia) never managed to win, with three victories for the Brazilian side and two draws. Two other historical opponents in the finals were (West) Germany and Italy with three encounters each: Czechoslovakia won, drew and lost once against the Germans and the matches against Italy all ended in a defeat.\n\nQuestion: has czech republic ever won the world cup\n\nAnswer with just yes or no:",
+    "answer": "no",
+    "type": "boolq"
+  },
+  {
+    "id": "10",
+    "prompt": "Passage: All but two of the universities in the Russell Group are part of the Sutton Trust's group of 30 highly selective universities, the Sutton Trust 30 (the absent members being Queen Mary University of London and Queen's University Belfast). The Sutton 13 group of the 13 most highly selective universities only includes one non-Russell Group member, the University of St Andrews. St Andrews was also the only non-Russell Group University in the top 10 by average UCAS tariff score of new undergraduate students in 2015--16, placing fifth with an average score of 525 (and an offer rate of 52.2%). Half of the Russell Group made offers to more than three quarter of their undergraduate applicants in 2015.\n\nQuestion: is st andrews university in the russell group\n\nAnswer with just yes or no:",
+    "answer": "no",
+    "type": "boolq"
+  },
+  {
+    "id": "11",
+    "prompt": "Passage: At the time of the FCC vote, the Senate had the proper amount of backing to force its own vote on net neutrality. The vote was being forced under Senate rules that went into effect in 1996 called the Congressional Review Act. Senate Democrats expressed optimism at their level of support given the help of Republican member Susan Collins. The motion to restore net neutrality passed in the Senate on May 16, 2018. Collins was joined by Republicans John Kennedy and Lisa Murkowski. If the challenge is not passed by the House of Representatives and signed by the President within 60 legislative days from February 22, 2018 (the date of publication in the Federal Register), the measure will fail. Barring that, FCC Commissioner Rosenworcel said that ``Restoring Internet Freedom'' will become the official policy of the US June 11, 2018. FCC Chairman Ajit Pai responded to the Senate vote by saying ``It's disappointing that Senate Democrats forced this resolution through by a narrow margin, but ultimately, I'm confident that their effort to reinstate heavy-handed government regulation of the Internet will fail'' and cited The Washington Post's ``three-Pinnochio'' fact-check of Democratic claims regarding net neutrality.\n\nQuestion: do we still have net neutrality in the us\n\nAnswer with just yes or no:",
+    "answer": "yes",
+    "type": "boolq"
+  },
+  {
+    "id": "12",
+    "prompt": "Passage: In Wyandotte County lies Kansas City, Kansas, which is locally called ``KCK'' to distinguish it from the larger Kansas City, Missouri (KCMO). It contains many residential neighborhoods, the Fairfax Industrial District, and the Village West entertainment district. The General Motors Fairfax Assembly Plant is located in the Fairfax Industrial District. Village West contains many area attractions. This includes many sporting venues such as Children's Mercy Park, home of the area MLS soccer team Sporting Kansas City, the Kansas Speedway, which hosts many NASCAR races, and Community America Ballpark, home of the independent baseball team, the Kansas City T-Bones. Other Village West attractions include the Legends shopping district, the Providence Medical Center Amphitheater, and Schlitterbahn Waterpark.\n\nQuestion: are kansas city ks and kansas city mo the same city\n\nAnswer with just yes or no:",
+    "answer": "no",
+    "type": "boolq"
+  },
+  {
+    "id": "13",
+    "prompt": "Passage: Deep Blue Sea 2 also released the same week on VOD. It debuted at #10 on the Microsoft Store VOD chart for the week ended 04-23-18 just behind theatrical release Insidious: The Last Key and maintained its position at #10 the following week (for the week ended 04-30-18) just behind theatrical release, Matt Damon starrer Downsizing. The Deep Blue Sea 2 VOD debut ranking was approximately on-par with the VOD debut of theatrical release Winchester the following week. Deep Blue Sea 2 was the only non-theatrical release to appear in the top 10 of any VOD chart for the months of April and May 2018.\n\nQuestion: did deep blue sea 2 come out in theaters\n\nAnswer with just yes or no:",
+    "answer": "no",
+    "type": "boolq"
+  },
+  {
+    "id": "14",
+    "prompt": "Passage: Costner developed the film with an initial budget of $15 million. Dances with Wolves had high production values and won seven Academy Awards including Best Picture and the Golden Globe Award for Best Motion Picture -- Drama. Much of the dialogue is spoken in Lakota with English subtitles. It was shot in South Dakota and Wyoming, and translated by Albert White Hat, the chair of the Lakota Studies Department at Sinte Gleska University.\n\nQuestion: is dances with wolves supposed to have subtitles\n\nAnswer with just yes or no:",
+    "answer": "yes",
+    "type": "boolq"
+  },
+  {
+    "id": "15",
+    "prompt": "Passage: The film was released on DVD and VHS on October 31, 2005 (Halloween), in the UK and Ireland, on November 1, 2005 in the United States and Canada on DVD and on November 3, 2005, in Australia. It was also released in most major territories on or near the same day. The DVD was a two-disc set, with picture and sound mastered from the original digital source material.\n\nQuestion: did star wars episode 3 come out on vhs\n\nAnswer with just yes or no:",
+    "answer": "yes",
+    "type": "boolq"
+  }
+]
